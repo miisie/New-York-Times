@@ -9,7 +9,7 @@ interface ApiClient {
     @GET("search/v2/articlesearch.json")
     fun getArticle(
         @Query("page") page: Int,
-        @Query("q") q: String,
+        @Query("q") q: String?,
         @Query("api-key") apiKey: String = "mqUtSDNyvshvMb2H3Ymku4GDlfrl0PGR"
     ): Call<ArticlesResponse>
 }

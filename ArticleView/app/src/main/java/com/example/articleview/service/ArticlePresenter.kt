@@ -1,30 +1,22 @@
 package com.example.articleview.service
 
-import androidx.recyclerview.widget.RecyclerView
 import com.example.articleview.data.Docs
 import com.example.articleview.network.ArticleInterface
-import com.example.articleview.ui.ArticleAdapter
-private lateinit var ArticlesAdapter: ArticleAdapter
-private lateinit var ArticleRecyclerView: RecyclerView
 
 class ArticlePresenter(articleView: ArticleInterface.ArticleView): ArticleInterface.ArticlePresenter {
     private val model: ArticleInterface.ArticleModel = ArticleRepos(this::onSuccess, this::onError)
     private var view: ArticleInterface.ArticleView = articleView
+    var check: Boolean = false
     override fun networkCall(page: Int) {
+        check = false
         model?.GetArticles(page)
     }
-    /* override fun onArticleFetched(articles: MutableList<Docs>) {
-         ArticlesAdapter.appendArticles(articles)
-         attachArticlesOnScrollListener()
-     }
 
-     override fun attachArticlesOnScrollListener() {
-         ArticleRecyclerView
-     }
-     override fun onError() {
+    override fun QueryCall(page: Int, query: String) {
+        check = true
+        model?.GetArticlesbyQuery(page,query)
+    }
 
-         Toast.makeText(this,"Error fetch article", Toast.LENGTH_SHORT).show()
-     }*/
     private fun onSuccess(articles: MutableList<Docs>) {
         view.onSuccess(articles)
     }

@@ -1,10 +1,12 @@
 package com.example.articleview.ui
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.ImageView
+import androidx.browser.customtabs.CustomTabsIntent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.articleview.R
@@ -42,11 +44,17 @@ class ArticleAdapter(private var articles: MutableList<Docs>): RecyclerView.Adap
         private val image: ImageView = itemView.findViewById(R.id.item_article_image)
         fun bind(article : Docs){
             itemView.item_article_title.text = article.headline.title
-            Glide.with(itemView)
-                .load("http://static01.nyt.com/${article.multimedia[0].imgUrl}")
-                .transform(CenterCrop())
-                .into(image)
+            if (!article.multimedia.isNullOrEmpty()) {
+                Glide.with(itemView)
+                    .load("http://static01.nyt.com/${article.multimedia[0].imgUrl}").error(R.drawable.ic_error)
+                    .transform(CenterCrop())
+                    .into(image)
+                itemView.setOnClickListener{
+                    val builder = CustomTabsIntent.Builder()
+                    val customTabIntent = builder.build()
+                    customTabIntent.launchUrl(itemView.context, Uri.parse(article.articleUrl))
+                }
+            }
         }
     }
-
 }

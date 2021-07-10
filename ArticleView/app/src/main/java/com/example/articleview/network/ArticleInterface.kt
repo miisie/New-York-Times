@@ -6,6 +6,7 @@ import com.example.articleview.data.Docs
 interface ArticleInterface {
     interface ArticleModel{
         fun GetArticles(page: Int)
+        fun GetArticlesbyQuery(page: Int, query:String)
     }
     interface ArticleView{
         fun onSuccess(articles: MutableList<Docs>)
@@ -13,8 +14,6 @@ interface ArticleInterface {
     }
     interface ArticlePresenter{
         fun networkCall(page: Int)
-        /*fun onArticleFetched(articles: MutableList<Docs>)
-        fun attachArticlesOnScrollListener()
-        fun onError()*/
+        fun QueryCall(page: Int, query:String)
     }
 }
