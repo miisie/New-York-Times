@@ -8,19 +8,6 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
-
-    <!--<SearchView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="Search"
-        android:iconifiedByDefault="false"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginHorizontal="16dp"
-        android:background="@drawable/searchview_background"
-        android:queryBackground="@android:color/transparent"
-        tools:ignore="MissingConstraints">
-    </SearchView>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -36,6 +23,7 @@
             android:background="@drawable/searchview_background"
             android:layout_marginLeft="8dp"
             android:hint="Search..."
+            android:paddingStart="10dp"
             android:id="@+id/input"
             />
         <Button

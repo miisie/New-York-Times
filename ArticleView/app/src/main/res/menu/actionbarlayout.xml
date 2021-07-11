@@ -4,20 +4,28 @@
     <item android:id="@+id/sort"
         android:icon="@drawable/ic_sort"
         app:showAsAction="always"
-        android:title="sort" />
+        android:title="sort" >
+        <menu>
+           <!-- <group android:checkableBehavior="single">
+                <item android:id="@+id/art" android:title="Art"/>
+                <item android:id="@+id/sports" android:title="Sports"/>
+                <item android:id="@+id/tradition" android:title="Tradition"/>
+            </group>-->
+        </menu>
+    </item>
 
     <item android:id="@+id/dots3"
         android:icon="@drawable/ic_3dots"
         app:showAsAction="always"
         android:title="3dots">
-        <menu>
-            <item android:id="@+id/item1"
+        <!--<menu>
+            <item android:id="@+id/item3"
                 app:showAsAction="never"
-                android:title="Item1"/>
-            <item android:id="@+id/item2"
+                android:title="Item3"/>
+            <item android:id="@+id/item4"
                 app:showAsAction="never"
-                android:title="Item2"/>
-        </menu>
+                android:title="Item4"/>
+        </menu>-->
     </item>
 
 </menu>

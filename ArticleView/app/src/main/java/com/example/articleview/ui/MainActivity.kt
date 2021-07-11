@@ -4,6 +4,7 @@ import com.example.articleview.ui.ArticleAdapter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -30,26 +31,30 @@ class MainActivity : AppCompatActivity(),ArticleInterface.ArticleView,View.OnCli
         setContentView(R.layout.activity_main)
     btnSearch = findViewById(R.id.btnSearch)
     input = findViewById(R.id.input)
-
+    btnSearch.setOnClickListener(this)
 
     recyclerView = findViewById(R.id.article_list)
     layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-
     recyclerView.layoutManager = layoutManager
     adapter = ArticleAdapter(mutableListOf())
     recyclerView.adapter = adapter
-
 
     presenter = ArticlePresenter(this)
     presenter.networkCall(page)
 
     }
-     private fun onArticleFetched(articles: MutableList<Docs>) {
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbarlayout, menu);
+        return true;
+    }
+
+    private fun onArticleFetched(articles: MutableList<Docs>) {
          adapter.appendArticles(articles)
          attachArticlesOnScrollListener()
      }
 
-     private fun attachArticlesOnScrollListener() {
+    private fun attachArticlesOnScrollListener() {
          recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener(){
              override fun onScrolled(recyclerview: RecyclerView, dx: Int, dy: Int) {
                  val totalItemCount = layoutManager.itemCount
@@ -66,15 +71,11 @@ class MainActivity : AppCompatActivity(),ArticleInterface.ArticleView,View.OnCli
                  }
              }
          })
-     }
+    }
      private fun onError() {
          Toast.makeText(this,"Error fetch article", Toast.LENGTH_SHORT).show()
      }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.actionbarlayout, menu);
-        return true;
-    }
-
+    //FeedBack
     override fun onSuccess(articles: MutableList<Docs>) {
         onArticleFetched(articles)
     }
@@ -82,13 +83,43 @@ class MainActivity : AppCompatActivity(),ArticleInterface.ArticleView,View.OnCli
     override fun onFailed(str: String) {
         onError()
     }
-
+   //Search Button
     override fun onClick(v: View?) {
-        if(v?.getId() == R.id.btnSearch){
-            presenter.check = true
+        if(v?.getId()== R.id.btnSearch){
             query = input.text.toString()
-            presenter?.QueryCall(page,query)
+            adapter.clear()
+            if(query.isNullOrEmpty()){
+                page =1
+                presenter.check = false
+                presenter?.networkCall(page)
+            }else {
+                page =1
+                presenter.check = true
+                presenter?.QueryCall(page, query)
+            }
         }
     }
 
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.sort-> Toast.makeText(this,"sort selected",Toast.LENGTH_SHORT).show()
+            R.id.dots3-> Toast.makeText(this,"dots3 selected",Toast.LENGTH_SHORT).show()
+            R.id.art->if(item.isChecked){
+                item.setChecked(false)
+            }else{
+                item.setChecked(true)
+            }
+            R.id.sports->if(item.isChecked){
+                item.setChecked(false)
+            }else{
+                item.setChecked(true)
+            }
+            R.id.tradition->if(item.isChecked){
+                item.setChecked(false)
+            }else{
+                item.setChecked(true)
+            }
+        }
+        return true
+    }*/
 }
